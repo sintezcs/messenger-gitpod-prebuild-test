@@ -1,0 +1,37 @@
+image: gitpod/workspace-postgres
+tasks:
+  - name: Backend
+    env:
+      SESSION_SECRET: oiwnewerJlw70238974
+      DATABASE_URL: postgres://localhost/postgres
+    init: |
+      cd server
+      npm install
+      npm run seed
+    command: npm run dev
+  - name: Frontend
+    init: |
+      cd client
+      npm install
+    command: DANGEROUSLY_DISABLE_HOST_CHECK=true npm start
+ports:
+  - port: 3000
+    onOpen: open-browser
+    visibility: public
+  - port: 3001
+    onOpen: notify
+    visibility: public
+  - port: 5432
+    onOpen: ignore
+    visibility: private
+github:
+  prebuilds:
+    # enable for the default branch (defaults to true)
+    master: true
+    # enable for all branches in this repo (defaults to false)
+    branches: false
+    # enable for pull requests coming from this repo (defaults to true)
+    pullRequests: true
+    # enable for pull requests coming from forks (defaults to false)
+    pullRequestsFromForks: false
+    # add a check to pull requests (defaults to true)
